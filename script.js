@@ -1,6 +1,28 @@
 // ===== Global Variables =====
 let currentLang = 'en';
-const githubUsername = 'alroshdi92';
+const githubUsername = 'alroshdi';
+
+// Manual project definitions (fallback if GitHub API fails or for specific projects)
+const manualProjects = [
+    {
+        name: 'TaxAuthorityProject',
+        description: 'Tax Authority project - all individual work',
+        language: 'JavaScript',
+        html_url: 'https://github.com/alroshdi/TaxAuthorityProject'
+    },
+    {
+        name: 'predict_sales_lstm',
+        description: 'Sales Forecasting App - LSTM model + Streamlit UI + Upload & Visualization',
+        language: 'Python',
+        html_url: 'https://github.com/alroshdi/predict_sales_lstm'
+    },
+    {
+        name: 'EcommerceSystem',
+        description: 'E-commerce system built with modern technologies',
+        language: 'PHP',
+        html_url: 'https://github.com/alroshdi/EcommerceSystem'
+    }
+];
 
 // ===== Language Switching =====
 function toggleLanguage() {
@@ -132,20 +154,13 @@ async function fetchGitHubRepos(username) {
         }
         
         const repos = await response.json();
-        
-        if (repos.length === 0) {
-            projectsGrid.innerHTML = `
-                <div class="loading">No projects found</div>
-            `;
-            return;
-        }
-        
         projectsGrid.innerHTML = '';
         
         // Separate prioritized and regular repositories
         const prioritizedProjects = [];
         const regularProjects = [];
         
+        // First, try to find prioritized repos from GitHub
         repos.forEach(repo => {
             // Skip if repository is a fork or in excluded list
             if (repo.fork || excludedRepos.includes(repo.name)) {
@@ -167,8 +182,37 @@ async function fetchGitHubRepos(username) {
             }
         });
         
+        // Add manual projects for prioritized repos that weren't found in GitHub API
+        prioritizedRepos.forEach(repoName => {
+            const foundInGitHub = prioritizedProjects.some(r => r.name === repoName);
+            if (!foundInGitHub) {
+                const manualProject = manualProjects.find(p => p.name === repoName);
+                if (manualProject) {
+                    prioritizedProjects.push(manualProject);
+                }
+            }
+        });
+        
         // Combine: prioritized first, then regular projects
         const selectedProjects = [...prioritizedProjects, ...regularProjects].slice(0, maxProjects);
+        
+        // If we don't have enough projects, add from manual list
+        if (selectedProjects.length < maxProjects) {
+            manualProjects.forEach(manualProject => {
+                if (selectedProjects.length >= maxProjects) return;
+                const alreadyAdded = selectedProjects.some(p => p.name === manualProject.name);
+                if (!alreadyAdded) {
+                    selectedProjects.push(manualProject);
+                }
+            });
+        }
+        
+        // If still no projects, use manual projects as fallback
+        if (selectedProjects.length === 0 && repos.length === 0) {
+            manualProjects.slice(0, maxProjects).forEach(manualProject => {
+                selectedProjects.push(manualProject);
+            });
+        }
         
         // Create project cards
         selectedProjects.forEach(repo => {
@@ -184,10 +228,28 @@ async function fetchGitHubRepos(username) {
         
     } catch (error) {
         console.error('Error fetching GitHub repos:', error);
-        projectsGrid.innerHTML = `
-            <div class="loading" data-en="Failed to load projects. Please try again later." data-ar="فشل تحميل المشاريع. يرجى المحاولة مرة أخرى لاحقاً.">Failed to load projects. Please try again later.</div>
-        `;
-        updateLanguage();
+        
+        // Use manual projects as fallback on error
+        projectsGrid.innerHTML = '';
+        const fallbackProjects = manualProjects.slice(0, maxProjects);
+        
+        if (fallbackProjects.length > 0) {
+            fallbackProjects.forEach(project => {
+                const projectCard = createProjectCard(project);
+                projectsGrid.appendChild(projectCard);
+            });
+            
+            // Observe project cards for animation
+            const projectCards = projectsGrid.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                observer.observe(card);
+            });
+        } else {
+            projectsGrid.innerHTML = `
+                <div class="loading" data-en="Failed to load projects. Please try again later." data-ar="فشل تحميل المشاريع. يرجى المحاولة مرة أخرى لاحقاً.">Failed to load projects. Please try again later.</div>
+            `;
+            updateLanguage();
+        }
     }
 }
 
