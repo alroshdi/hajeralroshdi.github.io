@@ -340,6 +340,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <i class="fas fa-times"></i>
             </button>
         `;
+        
+        // Don't scroll - just show the message where it is
+        // The message will appear in place without moving the page
     }
     
     // Add scroll event for parallax effect on hero section
@@ -483,6 +486,10 @@ console.log('Portfolio website loaded successfully! 🚀');
         contactForm.appendChild(hiddenInput3);
         
         contactForm.addEventListener('submit', function(e) {
+            // Save current scroll position
+            const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            sessionStorage.setItem('contactFormScrollPos', scrollPosition);
+            
             // Show sending status
             formStatus.className = 'form-status sending';
             formStatus.innerHTML = currentLang === 'en' 
@@ -504,8 +511,20 @@ console.log('Portfolio website loaded successfully! 🚀');
             // Store in localStorage
             localStorage.setItem('formSubmitSuccess', successMessage);
             
-            // Clean URL
-            window.history.replaceState({}, document.title, window.location.pathname);
+            // Clean URL without scrolling
+            window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+            
+            // Restore scroll position
+            setTimeout(() => {
+                const savedScrollPos = sessionStorage.getItem('contactFormScrollPos');
+                if (savedScrollPos) {
+                    window.scrollTo({
+                        top: parseInt(savedScrollPos),
+                        behavior: 'auto'
+                    });
+                    sessionStorage.removeItem('contactFormScrollPos');
+                }
+            }, 100);
         }
         
         // Check localStorage on page load for success message
