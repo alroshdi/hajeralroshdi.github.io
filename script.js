@@ -486,66 +486,48 @@ console.log('Portfolio website loaded successfully! 🚀');
     }
 })();
 
-// ===== Attachment Handler =====
+// ===== Attachment Handler (Single File Only) =====
 (function() {
     const attachmentInput = document.getElementById('attachment');
     const attachmentList = document.getElementById('attachment-list');
-    window.attachedFiles = [];
+    window.attachedFile = null; // Single file instead of array
     
     if (attachmentInput && attachmentList) {
         attachmentInput.addEventListener('change', function(e) {
-            const files = Array.from(e.target.files);
+            const file = e.target.files[0]; // Get only the first file
             
-            files.forEach(file => {
-                if (window.attachedFiles.length < 5) { // Limit to 5 files
-                    // Check if file already exists
-                    const exists = window.attachedFiles.some(f => f.name === file.name && f.size === file.size);
-                    if (!exists) {
-                        window.attachedFiles.push(file);
-                        
-                        // Display attachment item
-                        const attachmentItem = document.createElement('div');
-                        attachmentItem.className = 'attachment-item';
-                        attachmentItem.setAttribute('data-file-id', file.name + file.size);
-                        attachmentItem.innerHTML = `
-                            <i class="fas fa-file"></i>
-                            <span>${file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name}</span>
-                            <span class="remove-attachment" data-file-id="${file.name + file.size}">×</span>
-                        `;
-                        attachmentList.appendChild(attachmentItem);
-                        
-                        // Remove attachment handler
-                        const removeBtn = attachmentItem.querySelector('.remove-attachment');
-                        removeBtn.addEventListener('click', function() {
-                            const fileId = this.getAttribute('data-file-id');
-                            // Remove from array
-                            window.attachedFiles = window.attachedFiles.filter(f => (f.name + f.size) !== fileId);
-                            attachmentItem.remove();
-                            updateFileInput();
-                        });
-                    }
-                } else {
-                    alert('Maximum 5 files allowed');
-                }
-            });
-            
-            updateFileInput();
+            if (file) {
+                // Clear previous attachment
+                attachmentList.innerHTML = '';
+                window.attachedFile = file;
+                
+                // Display attachment item
+                const attachmentItem = document.createElement('div');
+                attachmentItem.className = 'attachment-item';
+                attachmentItem.innerHTML = `
+                    <i class="fas fa-file"></i>
+                    <span>${file.name.length > 30 ? file.name.substring(0, 30) + '...' : file.name}</span>
+                    <span class="remove-attachment">×</span>
+                `;
+                attachmentList.appendChild(attachmentItem);
+                
+                // Remove attachment handler
+                const removeBtn = attachmentItem.querySelector('.remove-attachment');
+                removeBtn.addEventListener('click', function() {
+                    window.attachedFile = null;
+                    attachmentInput.value = ''; // Clear the input
+                    attachmentItem.remove();
+                });
+            }
         });
         
         function updateFileInput() {
-            // Update the main input with all files using DataTransfer
-            const dataTransfer = new DataTransfer();
-            window.attachedFiles.forEach(file => {
-                dataTransfer.items.add(file);
-            });
-            attachmentInput.files = dataTransfer.files;
-            
-            // Ensure the input has multiple attribute and proper name
-            if (window.attachedFiles.length > 0) {
-                attachmentInput.setAttribute('multiple', 'multiple');
-                attachmentInput.setAttribute('name', 'attachment');
-            } else {
-                attachmentInput.removeAttribute('name');
+            // For single file, the input already has the file selected
+            // Just ensure it's properly set
+            if (window.attachedFile && attachmentInput.files.length === 0) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(window.attachedFile);
+                attachmentInput.files = dataTransfer.files;
             }
         }
         
@@ -591,16 +573,13 @@ console.log('Portfolio website loaded successfully! 🚀');
                 window.updateAttachmentInput();
             }
             
-            // Verify all files are attached
+            // Verify file is attached (single file only)
             const attachmentInput = document.getElementById('attachment');
-            if (attachmentInput && window.attachedFiles && window.attachedFiles.length > 0) {
-                // Double-check that the input has all files
-                if (attachmentInput.files.length !== window.attachedFiles.length) {
-                    // Force update one more time
+            if (attachmentInput && window.attachedFile) {
+                // Ensure the file is properly set
+                if (attachmentInput.files.length === 0) {
                     const dataTransfer = new DataTransfer();
-                    window.attachedFiles.forEach(file => {
-                        dataTransfer.items.add(file);
-                    });
+                    dataTransfer.items.add(window.attachedFile);
                     attachmentInput.files = dataTransfer.files;
                 }
             }
