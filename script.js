@@ -502,20 +502,24 @@ console.log('Portfolio website loaded successfully! 🚀');
                     const exists = window.attachedFiles.some(f => f.name === file.name && f.size === file.size);
                     if (!exists) {
                         window.attachedFiles.push(file);
+                        
+                        // Display attachment item
                         const attachmentItem = document.createElement('div');
                         attachmentItem.className = 'attachment-item';
+                        attachmentItem.setAttribute('data-file-id', file.name + file.size);
                         attachmentItem.innerHTML = `
                             <i class="fas fa-file"></i>
                             <span>${file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name}</span>
-                            <span class="remove-attachment" data-filename="${file.name}">×</span>
+                            <span class="remove-attachment" data-file-id="${file.name + file.size}">×</span>
                         `;
                         attachmentList.appendChild(attachmentItem);
                         
                         // Remove attachment handler
                         const removeBtn = attachmentItem.querySelector('.remove-attachment');
                         removeBtn.addEventListener('click', function() {
-                            const filename = this.getAttribute('data-filename');
-                            window.attachedFiles = window.attachedFiles.filter(f => f.name !== filename);
+                            const fileId = this.getAttribute('data-file-id');
+                            // Remove from array
+                            window.attachedFiles = window.attachedFiles.filter(f => (f.name + f.size) !== fileId);
                             attachmentItem.remove();
                             updateFileInput();
                         });
@@ -529,15 +533,19 @@ console.log('Portfolio website loaded successfully! 🚀');
         });
         
         function updateFileInput() {
+            // Update the main input with all files using DataTransfer
             const dataTransfer = new DataTransfer();
             window.attachedFiles.forEach(file => {
                 dataTransfer.items.add(file);
             });
             attachmentInput.files = dataTransfer.files;
             
-            // Ensure the input is properly set for form submission
+            // Ensure the input has multiple attribute and proper name
             if (window.attachedFiles.length > 0) {
                 attachmentInput.setAttribute('multiple', 'multiple');
+                attachmentInput.setAttribute('name', 'attachment');
+            } else {
+                attachmentInput.removeAttribute('name');
             }
         }
         
@@ -581,6 +589,20 @@ console.log('Portfolio website loaded successfully! 🚀');
             // Ensure attachments are properly set before submission
             if (window.updateAttachmentInput) {
                 window.updateAttachmentInput();
+            }
+            
+            // Verify all files are attached
+            const attachmentInput = document.getElementById('attachment');
+            if (attachmentInput && window.attachedFiles && window.attachedFiles.length > 0) {
+                // Double-check that the input has all files
+                if (attachmentInput.files.length !== window.attachedFiles.length) {
+                    // Force update one more time
+                    const dataTransfer = new DataTransfer();
+                    window.attachedFiles.forEach(file => {
+                        dataTransfer.items.add(file);
+                    });
+                    attachmentInput.files = dataTransfer.files;
+                }
             }
             
             // Verify form has enctype for file uploads
