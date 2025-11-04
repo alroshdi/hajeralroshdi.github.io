@@ -617,17 +617,14 @@ console.log('Portfolio website loaded successfully! 🚀');
             // Clean URL without scrolling
             window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
             
-            // Restore scroll position
-            setTimeout(() => {
-                const savedScrollPos = sessionStorage.getItem('contactFormScrollPos');
-                if (savedScrollPos) {
-                    window.scrollTo({
-                        top: parseInt(savedScrollPos),
-                        behavior: 'auto'
-                    });
-                    sessionStorage.removeItem('contactFormScrollPos');
-                }
-            }, 100);
+            // Scroll to top to show success message
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Clear saved scroll position
+            sessionStorage.removeItem('contactFormScrollPos');
         }
         
         // Check localStorage on page load for success message
@@ -645,6 +642,11 @@ console.log('Portfolio website loaded successfully! 🚀');
                     <i class="fas fa-times"></i>
                 </button>
             `;
+            // Scroll to top smoothly when message appears
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
         
         // Make dismiss function globally accessible

@@ -1123,17 +1123,20 @@ section {
     }
     
     .form-status {
-        top: 70px;
-        left: 10px;
-        right: 10px;
-        max-width: calc(100% - 20px);
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 100%;
         font-size: 0.9rem;
-        padding: 0.8rem 1.2rem;
+        padding: 0.8rem 3rem 0.8rem 1.2rem;
+        border-radius: 0 0 8px 8px;
     }
     
     [dir="rtl"] .form-status {
-        left: 10px;
-        right: 10px;
+        left: 50%;
+        right: auto;
+        padding: 0.8rem 1.2rem 0.8rem 3rem;
     }
 }
 
@@ -1620,37 +1623,41 @@ section {
 .form-status {
     margin-top: 0;
     padding: 1rem 1.5rem;
-    border-radius: 10px;
-    text-align: left;
+    border-radius: 0 0 10px 10px;
+    text-align: center;
     font-weight: 500;
     display: none;
     position: fixed;
-    top: 80px;
-    left: 20px;
-    z-index: 1000;
-    max-width: 400px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    width: 100%;
+    max-width: 600px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    animation: slideInLeft 0.3s ease-out;
+    animation: slideDown 0.4s ease-out;
 }
 
-@keyframes slideInLeft {
+@keyframes slideDown {
     from {
-        transform: translateX(-100%);
+        transform: translateX(-50%) translateY(-100%);
         opacity: 0;
     }
     to {
-        transform: translateX(0);
+        transform: translateX(-50%) translateY(0);
         opacity: 1;
     }
 }
 
 .form-status.success {
     display: block;
-    background: #d4edda;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
     color: #155724;
-    border: 1px solid #c3e6cb;
+    border: none;
+    border-bottom: 2px solid #155724;
     position: fixed;
     padding-right: 2.5rem;
+    padding-left: 2.5rem;
 }
 
 .dismiss-btn {
@@ -1702,9 +1709,9 @@ section {
 
 /* RTL Support for form status */
 [dir="rtl"] .form-status {
-    left: auto;
-    right: 20px;
-    text-align: right;
+    left: 50%;
+    right: auto;
+    text-align: center;
 }
 
 [dir="rtl"] .dismiss-btn {
