@@ -80,16 +80,36 @@ if (hamburger && navMenu) {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const targetId = this.getAttribute('href');
+        const target = document.querySelector(targetId);
         
         if (target) {
-            const navHeight = document.getElementById('navbar').offsetHeight;
-            const targetPosition = target.offsetTop - navHeight;
+            const navbar = document.getElementById('navbar');
+            const navHeight = navbar ? navbar.offsetHeight : 70;
             
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
+            // Calculate target position with proper offset
+            const targetRect = target.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const targetPosition = scrollTop + targetRect.top - navHeight - 20; // Extra 20px padding
+            
+            // Stop any ongoing scroll animations by canceling smooth scroll
+            if ('scrollBehavior' in document.documentElement.style) {
+                document.documentElement.style.scrollBehavior = 'auto';
+            }
+            
+            // Scroll immediately to cancel any ongoing animation
+            window.scrollTo(0, window.pageYOffset);
+            
+            // Restore smooth scroll and animate to target
+            setTimeout(() => {
+                if ('scrollBehavior' in document.documentElement.style) {
+                    document.documentElement.style.scrollBehavior = 'smooth';
+                }
+                window.scrollTo({
+                    top: Math.max(0, targetPosition), // Ensure positive value
+                    behavior: 'smooth'
+                });
+            }, 50);
             
             // Close mobile menu if open
             if (navMenu && navMenu.classList.contains('active')) {
