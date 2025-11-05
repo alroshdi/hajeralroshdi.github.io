@@ -1359,6 +1359,28 @@ section {
     color: #555;
 }
 
+.timeline-skills {
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+.timeline-skills strong {
+    color: #4A90E2;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.timeline-skills span {
+    color: var(--text-light);
+}
+
+.timeline-item:hover .timeline-skills span {
+    color: #555;
+}
+
 /* ===== Education Section ===== */
 .education {
     background: linear-gradient(135deg, #FFF5EE 0%, #FFFFFF 100%);
