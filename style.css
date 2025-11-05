@@ -409,23 +409,6 @@ section {
     animation: expandLine 0.8s ease-out 0.3s both;
 }
 
-/* Special styling for Services section title */
-#services .section-title {
-    background: linear-gradient(135deg, #4A90E2, #6366F1, #8B5CF6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-family: var(--font-english);
-    margin-bottom: 3.5rem;
-}
-
-#services .section-title::after {
-    background: linear-gradient(135deg, #4A90E2, #6366F1, #8B5CF6);
-    width: 100px;
-    animation: expandLineServices 0.8s ease-out 0.3s both;
-}
 
 /* Animation for section titles */
 .animated-title {
@@ -456,16 +439,6 @@ section {
     }
 }
 
-@keyframes expandLineServices {
-    0% {
-        width: 0;
-        opacity: 0;
-    }
-    100% {
-        width: 100px;
-        opacity: 1;
-    }
-}
 
 /* ===== Animations ===== */
 @keyframes fadeIn {
@@ -1156,7 +1129,6 @@ section {
     
     #services .section-title {
         font-size: 1.4rem;
-        letter-spacing: 1px;
         margin-bottom: 2rem;
     }
     
