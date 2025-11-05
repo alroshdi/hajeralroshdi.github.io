@@ -1221,9 +1221,6 @@ section {
     background: linear-gradient(135deg, rgba(74, 144, 226, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
     transition: all 0.3s ease;
     position: relative;
-}
-
-.experience-card-header {
     border-bottom: 2px solid rgba(74, 144, 226, 0.15);
 }
 
