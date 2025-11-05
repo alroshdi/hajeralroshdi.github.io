@@ -393,6 +393,7 @@ section {
     position: relative;
     display: inline-block;
     width: 100%;
+    color: var(--text-dark);
 }
 
 .section-title::after {
@@ -405,6 +406,65 @@ section {
     height: 4px;
     background: linear-gradient(135deg, var(--primary-pink), var(--primary-sky));
     border-radius: 2px;
+    animation: expandLine 0.8s ease-out 0.3s both;
+}
+
+/* Special styling for Services section title */
+#services .section-title {
+    background: linear-gradient(135deg, #4A90E2, #6366F1, #8B5CF6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: var(--font-english);
+    margin-bottom: 3.5rem;
+}
+
+#services .section-title::after {
+    background: linear-gradient(135deg, #4A90E2, #6366F1, #8B5CF6);
+    width: 100px;
+    animation: expandLineServices 0.8s ease-out 0.3s both;
+}
+
+/* Animation for section titles */
+.animated-title {
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: titleSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes titleSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes expandLine {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 80px;
+        opacity: 1;
+    }
+}
+
+@keyframes expandLineServices {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 100px;
+        opacity: 1;
+    }
 }
 
 /* ===== Animations ===== */
@@ -726,20 +786,6 @@ section {
     }
 }
 
-.services-section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 3.5rem;
-    background: linear-gradient(135deg, #4A90E2, #6366F1, #8B5CF6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-family: var(--font-english);
-    position: relative;
-}
 
 .services-grid {
     display: grid;
@@ -1065,7 +1111,7 @@ section {
         min-height: auto;
     }
     
-    .services-section-title {
+    #services .section-title {
         font-size: 1.8rem;
         margin-bottom: 2rem;
     }
@@ -1108,7 +1154,7 @@ section {
         min-height: auto;
     }
     
-    .services-section-title {
+    #services .section-title {
         font-size: 1.4rem;
         letter-spacing: 1px;
         margin-bottom: 2rem;
