@@ -768,16 +768,13 @@ section {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1.8rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
     margin-top: 3.5rem;
-    max-width: 1600px;
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
-    padding: 0 1rem;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    padding: 0 2rem;
 }
 
 .services-grid::-webkit-scrollbar {
@@ -1044,8 +1041,8 @@ section {
 
 @media (max-width: 1400px) {
     .services-grid {
-        grid-template-columns: repeat(6, 1fr);
-        gap: 1rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
         max-width: 1200px;
     }
     
