@@ -1200,7 +1200,6 @@ section {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid transparent;
-    cursor: pointer;
 }
 
 .experience-card:hover {
@@ -1224,9 +1223,8 @@ section {
     position: relative;
 }
 
-.experience-card[data-expanded="true"] .experience-card-header {
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
-    border-bottom: 2px solid rgba(74, 144, 226, 0.2);
+.experience-card-header {
+    border-bottom: 2px solid rgba(74, 144, 226, 0.15);
 }
 
 .experience-icon {
@@ -1278,28 +1276,10 @@ section {
     box-shadow: 0 2px 8px rgba(74, 144, 226, 0.25);
 }
 
-.experience-chevron {
-    color: #4A90E2;
-    font-size: 1rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    flex-shrink: 0;
-}
-
-.experience-card[data-expanded="true"] .experience-chevron {
-    transform: rotate(180deg);
-    color: #357ABD;
-}
 
 .experience-card-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
-    padding: 0 1.5rem;
-}
-
-.experience-card[data-expanded="true"] .experience-card-body {
-    max-height: 500px;
     padding: 1.5rem;
+    overflow: visible;
 }
 
 .experience-card-body p {
@@ -2010,9 +1990,6 @@ section {
     
     .experience-card-body {
         font-size: 0.85rem;
-    }
-    
-    .experience-card[data-expanded="true"] .experience-card-body {
         padding: 1.2rem;
     }
     
