@@ -660,6 +660,25 @@ console.log('Portfolio website loaded successfully! 🚀');
     }
 })();
 
+/* ===== Experience Section Accordion ===== */
+function toggleExperience(headerElement) {
+    const card = headerElement.closest('.experience-card');
+    const isExpanded = card.getAttribute('data-expanded') === 'true';
+    
+    // Toggle the expanded state
+    card.setAttribute('data-expanded', !isExpanded);
+    
+    // Smooth scroll to the card if it's being expanded
+    if (!isExpanded) {
+        setTimeout(() => {
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+}
+
+// Make function globally accessible
+window.toggleExperience = toggleExperience;
+
 /* ===== Alternative: EmailJS Setup (Uncomment and configure if you prefer EmailJS) =====
 (function() {
     // Initialize EmailJS
