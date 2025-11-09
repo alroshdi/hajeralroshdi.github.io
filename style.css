@@ -308,6 +308,26 @@ body:has(.top-bar.hidden) .navbar {
     z-index: 1;
 }
 
+.circular-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.circular-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
 .hero-text h1 {
     font-size: 3.5rem;
     font-weight: 700;
@@ -1947,6 +1967,12 @@ section {
         text-align: center;
     }
     
+    .circular-logo {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 1rem;
+    }
+    
     .hero-text h1 {
         font-size: 2.5rem;
     }
@@ -2035,6 +2061,13 @@ section {
     .top-bar.hidden ~ * .navbar,
     body:has(.top-bar.hidden) .navbar {
         top: 0;
+    }
+    
+    .circular-logo {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0.75rem;
+        padding: 8px;
     }
     
     .hero-text h1 {
