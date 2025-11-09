@@ -24,6 +24,36 @@ const manualProjects = [
     }
 ];
 
+// ===== Top Bar =====
+function closeTopBar() {
+    const topBar = document.getElementById('topBar');
+    const navbar = document.querySelector('.navbar');
+    
+    if (topBar) {
+        topBar.classList.add('hidden');
+        // Adjust navbar position when top bar is closed
+        if (navbar) {
+            navbar.style.top = '0';
+        }
+        // Store preference in localStorage
+        localStorage.setItem('topBarClosed', 'true');
+    }
+}
+
+// Check if top bar should be hidden on page load
+document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('topBarClosed') === 'true') {
+        const topBar = document.getElementById('topBar');
+        const navbar = document.querySelector('.navbar');
+        if (topBar) {
+            topBar.classList.add('hidden');
+        }
+        if (navbar) {
+            navbar.style.top = '0';
+        }
+    }
+});
+
 // ===== Language Switching =====
 function toggleLanguage() {
     const html = document.documentElement;
