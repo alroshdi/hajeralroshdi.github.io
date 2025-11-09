@@ -1989,13 +1989,21 @@ section {
         top: 0;
     }
     
+    .hero {
+        padding-top: 120px;
+        min-height: auto;
+        padding-bottom: 3rem;
+    }
+    
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
+        padding-top: 2rem;
     }
     
     .hero-text h1 {
         font-size: 2.5rem;
+        margin-top: 1rem;
     }
     
     .expand-all-btn {
@@ -2090,8 +2098,18 @@ section {
         top: 0;
     }
     
+    .hero {
+        padding-top: 110px;
+        padding-bottom: 2.5rem;
+    }
+    
+    .hero-content {
+        padding-top: 1.5rem;
+    }
+    
     .hero-text h1 {
         font-size: 2rem;
+        margin-top: 0.5rem;
     }
     
     .hero-text h2 {
